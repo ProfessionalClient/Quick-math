@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Numeris | Math Practice</title>
+
+<style>
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --ink: #17202e;
+  --muted: #687386;
+  --line: #e1e5eb;
+  --accent: #2458d3;
+  --accent-dark: #1945ad;
+  --success: #18794e;
+  --error: #b42318;
+  --radius: 16px;
+  --shadow: 0 8px 30px rgba(22,34,55,.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #b9cdfd;
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.site-header {
+  background: white;
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  max-width: 1050px;
+  margin: auto;
+  padding: 19px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.brand-name {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.header-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+main {
+  width: min(960px, calc(100% - 32px));
+  margin: 32px auto 50px;
+}
+
+.page-intro {
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+h1, h2, p {
+  margin-top: 0;
+}
+
+.page-intro h1 {
+  font-size: clamp(27px, 5vw, 36px);
+  letter-spacing: -1.1px;
+  line-height: 1.2;
+  margin-bottom: 9px;
+}
+
+.page-intro p {
+  color: var(--muted);
+  margin-bottom: 0;
+  max-width: 640px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(19px, 4vw, 28px);
+  margin-bottom: 20px;
+}
+
+.card-head {
+  margin-bottom: 23px;
+}
+
+.card-head h2 {
+  font-size: 19px;
+  margin: 0 0 5px;
+}
+
+.card-head p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.step-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 11px;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr .9fr;
+  gap: 22px;
+}
+
+.config-col + .config-col {
+  border-left: 1px solid var(--line);
+  padding-left: 22px;
+}
+
+.options {
+  display: grid;
+  gap: 8px;
+}
+
+.category-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.option {
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 12px 11px;
+  text-align: left;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 650;
+  font-size: 13px;
+}
+
+.option:hover {
+  border-color: #a8bce7;
+  background: #fafcff;
+}
+
+.option[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #f0f5ff;
+  color: var(--accent-dark);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.option.wide {
+  grid-column: 1 / -1;
+}
+
+.radio {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #b8c2d1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: 0 0 18px;
+}
+
+.option[aria-pressed="true"] .radio {
+  border-color: var(--accent);
+}
+
+.option[aria-pressed="true"] .radio::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.op-symbol {
+  width: 25px;
+  height: 25px;
+  border-radius: 7px;
+  background: #eef2f7;
+  color: #344054;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-weight: 800;
+  flex: 0 0 25px;
+}
+
+.option[aria-pressed="true"] .op-symbol {
+  background: #dce8ff;
+  color: var(--accent);
+}
+
+.option-text {
+  min-width: 0;
+}
+
+.option-text strong {
+  display: block;
+  font-weight: 700;
+}
+
+.option-text small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 11px 17px;
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+}
+
+.btn-secondary {
+  background: white;
+  color: #344054;
+  border-color: #d0d5dd;
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+}
+
+.btn-danger {
+  background: white;
+  color: #9b2c2c;
+  border-color: #f0cccc;
+}
+
+.start-btn {
+  min-width: 220px;
+}
+
+.helper {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  margin: 12px 0 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.session-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.session-tag {
+  font-size: 12px;
+  font-weight: 750;
+  color: #244da7;
+  background: #eef4ff;
+  border: 1px solid #dce7ff;
+  padding: 6px 10px;
+  border-radius: 7px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.stat-value.green {
+  color: var(--success);
+}
+
+.stat-value.red {
+  color: var(--error);
+}
+
+.question-card {
+  border: 1px solid #dce4f2;
+  background: #fbfcfe;
+  border-radius: 14px;
+  padding: clamp(22px, 5vw, 40px);
+  text-align: center;
+}
+
+.progress-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  margin: 0 auto 27px;
+  max-width: 440px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.progress-track {
+  height: 6px;
+  border-radius: 10px;
+  background: #e5e9f1;
+  flex: 1;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0;
+  transition: width .2s;
+}
+
+.question {
+  font-size: clamp(40px, 9vw, 66px);
+  font-weight: 750;
+  letter-spacing: -2px;
+  line-height: 1.12;
+  margin: 0 0 28px;
+  overflow-wrap: anywhere;
+}
+
+.answer-form {
+  max-width: 540px;
+  margin: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.answer-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #c8d1df;
+  border-radius: 10px;
+  background: white;
+  padding: 13px 16px;
+  font-size: 16px;
+}
+
+.answer-form button {
+  min-width: 110px;
+}
+
+.feedback {
+  min-height: 24px;
+  margin: 16px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.feedback.good {
+  color: var(--success);
+}
+
+.feedback.bad {
+  color: var(--error);
+}
+
+.session-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 17px;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.session-footnote {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 14px 0 0;
+}
+
+.summary-head {
+  margin-bottom: 22px;
+}
+
+.summary-head h2 {
+  font-size: 25px;
+  margin: 0 0 5px;
+}
+
+.summary-head p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.summary-metric {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fbfcfe;
+}
+
+.summary-metric span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.summary-metric strong {
+  font-size: 22px;
+}
+
+.summary-metric.primary-metric {
+  background: #eef4ff;
+  border-color: #d9e5ff;
+}
+
+.summary-metric.primary-metric strong {
+  font-size: 30px;
+  color: var(--accent);
+}
+
+.summary-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 760px) {
+  .config-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .config-col + .config-col {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 18px 0 0;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    width: calc(100% - 20px);
+    margin: 22px auto 32px;
+  }
+
+  .header-inner {
+    padding: 15px;
+  }
+
+  .header-label {
+    display: none;
+  }
+
+  .card {
+    padding: 17px;
+  }
+
+  .stats {
+    gap: 7px;
+  }
+
+  .stat {
+    padding: 11px 9px;
+  }
+
+  .stat-value {
+    font-size: 21px;
+  }
+
+  .answer-form {
+    flex-direction: column;
+  }
+
+  .answer-form button {
+    width: 100%;
+  }
+
+  .session-actions {
+    align-items: stretch;
+  }
+
+  .action-group {
+    width: 100%;
+  }
+
+  .action-group .btn {
+    flex: 1;
+  }
+
+  .session-actions > .btn {
+    width: 100%;
+  }
+
+  .summary-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <div class="brand-name">Numeris</div>
+        <div class="brand-sub">Math practice</div>
+      </div>
+    </div>
+    <div class="header-label">Focused practice. Measurable progress.</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-intro">
+    <div class="eyebrow">Practice workspace</div>
+    <h1>Build your calculation skills.</h1>
+    <p>Choose an operation, set your difficulty, and work through a focused practice session at your own pace.</p>
+  </div>
+
+  <!-- Category and session configuration -->
+  <section class="card" id="setupScreen">
+
+    <div class="card-head">
+      <h2>Session setup</h2>
+      <p>Choose the format that works for you.</p>
+    </div>
+
+    <div class="config-grid">
+
+      <div class="config-col">
+        <div class="step-label">01 / Operation</div>
+
+        <div class="options category-options" id="categoryOptions">
+
+          <button class="option" data-category="addition" aria-pressed="true">
+            <span class="op-symbol">+</span>
+            <span class="option-text"><strong>Addition</strong></span>
+          </button>
+
+          <button class="option" data-category="subtraction" aria-pressed="false">
+            <span class="op-symbol">−</span>
+            <span class="option-text"><strong>Subtraction</strong></span>
+          </button>
+
+          <button class="option" data-category="multiplication" aria-pressed="false">
+            <span class="op-symbol">×</span>
+            <span class="option-text"><strong>Multiplication</strong></span>
+          </button>
+
+          <button class="option" data-category="division" aria-pressed="false">
+            <span class="op-symbol">÷</span>
+            <span class="option-text"><strong>Division</strong></span>
+          </button>
+
+          <button class="option wide" data-category="mixed" aria-pressed="false">
+            <span class="op-symbol">±</span>
+            <span class="option-text"><strong>Mixed operations</strong></span>
+          </button>
+
+        </div>
+      </div>
+
+      <div class="config-col">
+        <div class="step-label">02 / Difficulty</div>
+
+        <div class="options" id="difficultyOptions">
+
+          <button class="option" data-difficulty="simple" aria-pressed="true">
+            <span class="radio"></span>
+            <span class="option-text">
+              <strong>Simple</strong>
+              <small>Smaller numbers</small>
+            </span>
+          </button>
+
+          <button class="option" data-difficulty="tough" aria-pressed="false">
+            <span class="radio"></span>
+            <span class="option-text">
+              <strong>Tough</strong>
+              <small>Larger numbers</small>
+            </span>
+          </button>
+
+        </div>
+      </div>
+
+      <div class="config-col">
+        <div class="step-label">03 / Session length</div>
+
+        <div class="options" id="limitOptions">
+
+          <button class="option" data-limit="10" aria-pressed="true">
+            <span class="radio"></span>
+            <span class="option-text"><strong>10 questions</strong></span>
+          </button>
+
+          <button class="option" data-limit="20" aria-pressed="false">
+            <span class="radio"></span>
+            <span class="option-text"><strong>20 questions</strong></span>
+          </button>
+
+          <button class="option" data-limit="0" aria-pressed="false">
+            <span class="radio"></span>
+            <span class="option-text">
+              <strong>All unique questions</strong>
+              <small>Use the available pool</small>
+            </span>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary start-btn" id="startButton">
+        Start practice →
+      </button>
+    </div>
+
+    <p class="helper">
+      Questions do not repeat during a session. Division problems have whole-number answers.
+    </p>
+
+  </section>
+
+  <!-- Practice screen -->
+  <section class="card hidden" id="practiceScreen">
+
+    <div class="session-top">
+      <span class="session-tag" id="sessionTag">ADDITION / SIMPLE</span>
+      <button class="btn btn-secondary" id="backButton">Back to setup</button>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-label">Correct answers</div>
+        <div class="stat-value green" id="correctCount">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Incorrect answers</div>
+        <div class="stat-value red" id="incorrectCount">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Elapsed time</div>
+        <div class="stat-value" id="timer">00:00</div>
+      </div>
+
+    </div>
+
+    <div class="question-card">
+
+      <div class="progress-line">
+        <span id="progressText">Question 1 of 10</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <h2 class="question" id="questionText">7 + 5 = ?</h2>
+
+      <form class="answer-form" id="answerForm">
+        <input
+          id="answerInput"
+          type="number"
+          step="1"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="Enter your answer"
+          aria-label="Your answer"
+          required
+        >
+        <button class="btn btn-primary" id="submitButton" type="submit">
+          Submit answer
+        </button>
+      </form>
+
+      <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+
+    </div>
+
+    <div class="session-actions">
+      <div class="action-group">
+        <button class="btn btn-secondary" id="pauseButton">Pause timer</button>
+        <button class="btn btn-secondary" id="resetButton">Reset session</button>
+      </div>
+      <button class="btn btn-danger" id="finishButton">Finish session</button>
+    </div>
+
+    <p class="session-footnote" id="sessionNote">
+      Press Enter or select Submit answer to check your response.
+    </p>
+
+  </section>
+
+  <!-- Final summary -->
+  <section class="card hidden" id="summaryScreen" aria-live="polite">
+
+    <div class="summary-head">
+      <div class="eyebrow">Session report</div>
+      <h2>Practice session complete</h2>
+      <p id="summaryDetails">Addition · Simple difficulty</p>
+    </div>
+
+    <div class="summary-grid">
+
+      <div class="summary-metric primary-metric">
+        <span>Final score</span>
+        <strong id="finalScore">0/10</strong>
+      </div>
+
+      <div class="summary-metric">
+        <span>Accuracy</span>
+        <strong id="percentage">0%</strong>
+      </div>
+
+      <div class="summary-metric">
+        <span>Correct</span>
+        <strong id="finalCorrect">0</strong>
+      </div>
+
+      <div class="summary-metric">
+        <span>Incorrect</span>
+        <strong id="finalIncorrect">0</strong>
+      </div>
+
+    </div>
+
+    <div class="summary-metric" style="margin-bottom:20px">
+      <span>Total time</span>
+      <strong id="finalTime">00:00</strong>
+    </div>
+
+    <div class="summary-actions">
+      <button class="btn btn-primary" id="againButton">Practice again</button>
+      <button class="btn btn-secondary" id="setupAgainButton">
+        Back to category selection
+      </button>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const categoryNames = {
+  addition: "Addition",
+  subtraction: "Subtraction",
+  multiplication: "Multiplication",
+  division: "Division",
+  mixed: "Mixed operations"
+};
+
+const symbols = {
+  addition: "+",
+  subtraction: "−",
+  multiplication: "×",
+  division: "÷"
+};
+
+let selectedCategory = "addition";
+let selectedDifficulty = "simple";
+let selectedLimit = 10;
+let session = null;
+let timerInterval = null;
+let feedbackTimeout = null;
+
+// Category, difficulty, and session-length selection.
+function selectOption(containerId, attribute, value) {
+  $(containerId).querySelectorAll("button").forEach(button => {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset[attribute] === String(value))
+    );
+  });
+}
+
+$("categoryOptions").addEventListener("click", event => {
+  const button = event.target.closest("[data-category]");
+  if (!button) return;
+
+  selectedCategory = button.dataset.category;
+  selectOption("categoryOptions", "category", selectedCategory);
+});
+
+$("difficultyOptions").addEventListener("click", event => {
+  const button = event.target.closest("[data-difficulty]");
+  if (!button) return;
+
+  selectedDifficulty = button.dataset.difficulty;
+  selectOption("difficultyOptions", "difficulty", selectedDifficulty);
+});
+
+$("limitOptions").addEventListener("click", event => {
+  const button = event.target.closest("[data-limit]");
+  if (!button) return;
+
+  selectedLimit = Number(button.dataset.limit);
+  selectOption("limitOptions", "limit", selectedLimit);
+});
+
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+// Generate a finite pool of unique number pairs.
+function generateQuestionPool(category, difficulty) {
+  const operations = category === "mixed"
+    ? ["addition", "subtraction", "multiplication", "division"]
+    : [category];
+
+  const maxNumber = difficulty === "simple" ? 10 : 99;
+  const maxDivisor = difficulty === "simple" ? 10 : 20;
+  const maxQuotient = difficulty === "simple" ? 10 : 99;
+  const pool = [];
+
+  for (const op of operations) {
+    if (op === "addition") {
+      for (let a = 1; a <= maxNumber; a++) {
+        for (let b = a; b <= maxNumber; b++) {
+          pool.push({
+            op, a, b, answer: a + b,
+            key: `${op}:${a}:${b}`
+          });
+        }
+      }
+    } else if (op === "subtraction") {
+      for (let a = 1; a <= maxNumber; a++) {
+        for (let b = 1; b <= a; b++) {
+          pool.push({
+            op, a, b, answer: a - b,
+            key: `${op}:${a}:${b}`
+          });
+        }
+      }
+    } else if (op === "multiplication") {
+      for (let a = 1; a <= maxNumber; a++) {
+        for (let b = a; b <= maxNumber; b++) {
+          pool.push({
+            op, a, b, answer: a * b,
+            key: `${op}:${a}:${b}`
+          });
+        }
+      }
+    } else if (op === "division") {
+      for (let b = 1; b <= maxDivisor; b++) {
+        for (let answer = 1; answer <= maxQuotient; answer++) {
+          const a = b * answer;
+
+          if (difficulty === "simple" && a > 100) continue;
+
+          pool.push({
+            op, a, b, answer,
+            key: `${op}:${a}:${b}`
+          });
+        }
+      }
+    }
+  }
+
+  return Array.from(
+    new Map(pool.map(question => [question.key, question])).
